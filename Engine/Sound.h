@@ -8,7 +8,6 @@
 #include "MyException.h"
 #include <wrl\client.h>
 
-// forward declare WAVEFORMATEX so we don't have to include bullshit headers
 struct tWAVEFORMATEX;
 typedef tWAVEFORMATEX WAVEFORMATEX;
 
