@@ -3,8 +3,10 @@
 #include "Brick.h"
 #include "Ball.h"
 
-Game::Game( MainWindow& wnd )
-	: wnd( wnd ), gfx( wnd ) {}
+Game::Game(MainWindow& wnd)
+	: wnd(wnd), gfx(wnd),
+	ball(Vec2(300.f, 300.f), Vec2(300.f, 300.f)),
+	walls(0.f, float(gfx.ScreenWidth), 0.f, float(gfx.ScreenHeight)) {}
 
 void Game::Go()
 {
@@ -16,6 +18,9 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	const float dt = ft.Mark();
+	ball.Update(dt);
+	ball.DoWallCollision(walls);
 }
 
 void Game::ComposeFrame()
@@ -26,4 +31,6 @@ void Game::ComposeFrame()
 	//TEST BALL
 	/*Ball ball(Vec2(100.f, 100.f), Vec2());
 	ball.Draw(gfx);*/
+	//TEST BALL MOVEMENT
+	ball.Draw(gfx);
 }

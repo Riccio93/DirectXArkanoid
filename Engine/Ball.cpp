@@ -162,3 +162,55 @@ void Ball::Draw(Graphics& gfx)
 	gfx.PutPixel(7 + x, 13 + y, 48, 48, 48);
 	gfx.PutPixel(8 + x, 13 + y, 48, 48, 48);
 }
+
+void Ball::Update(float dt)
+{
+	pos += vel * dt;
+}
+
+bool Ball::DoWallCollision(const RectF& walls)
+{
+	//We change a coordinate's sign if the ball collides with a wall
+	bool collided = false;
+	const RectF rect = GetRect();
+	if (rect.left < walls.left)
+	{
+		pos.x += walls.left - rect.left; //When the ball is out of bounds, move it so that it returns in bounds
+		ReboundX();
+		collided = true;
+	}
+	if (rect.right > walls.right)
+	{
+		pos.x -= rect.right - walls.right; //When the ball is out of bounds, move it so that it returns in bounds
+		ReboundX();
+		collided = true;
+	}
+	if (rect.top < walls.top)
+	{
+		pos.y += walls.top - rect.top; //When the ball is out of bounds, move it so that it returns in bounds
+		ReboundY();
+		collided = true;
+	}
+	if (rect.bottom > walls.bottom)
+	{
+		pos.y -= rect.bottom - walls.bottom; //When the ball is out of bounds, move it so that it returns in bounds
+		ReboundY();
+		collided = true;
+	}
+	return collided;
+}
+
+void Ball::ReboundX()
+{
+	vel.x = -vel.x;
+}
+
+void Ball::ReboundY()
+{
+	vel.y = -vel.y;
+}
+
+RectF Ball::GetRect() const
+{
+	return RectF::FromCenter(pos, radius, radius);
+}
