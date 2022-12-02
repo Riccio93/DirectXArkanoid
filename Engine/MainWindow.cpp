@@ -31,7 +31,7 @@ MainWindow::MainWindow( HINSTANCE hInst,wchar_t * pArgs )
 		wr.left,wr.top,wr.right - wr.left,wr.bottom - wr.top,
 		nullptr,nullptr,hInst,this );
 
-	// throw exception if something went terribly wrong
+	// throw exception if something went wrong
 	if( hWnd == nullptr )
 	{
 		throw Exception( _CRT_WIDE( __FILE__ ),__LINE__,
@@ -118,7 +118,7 @@ LRESULT MainWindow::HandleMsg( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam )
 
 		// ************ KEYBOARD MESSAGES ************ //
 	case WM_KEYDOWN:
-		if( !(lParam & 0x40000000) || kbd.AutorepeatIsEnabled() ) // no thank you on the autorepeat
+		if( !(lParam & 0x40000000) || kbd.AutorepeatIsEnabled() )
 		{
 			kbd.OnKeyPressed( static_cast<unsigned char>(wParam) );
 		}

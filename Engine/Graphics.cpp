@@ -24,7 +24,6 @@ Graphics::Graphics( HWNDKey& key )
 {
 	assert( key.hWnd != nullptr );
 
-	//////////////////////////////////////////////////////
 	// create device and swap chain/get render target view
 	DXGI_SWAP_CHAIN_DESC sd = {};
 	sd.BufferCount = 1;
@@ -99,8 +98,6 @@ Graphics::Graphics( HWNDKey& key )
 	vp.TopLeftY = 0.0f;
 	pImmediateContext->RSSetViewports( 1,&vp );
 
-
-	///////////////////////////////////////
 	// create texture for cpu render target
 	D3D11_TEXTURE2D_DESC sysTexDesc;
 	sysTexDesc.Width = Graphics::ScreenWidth;
@@ -131,10 +128,7 @@ Graphics::Graphics( HWNDKey& key )
 		throw DX_GFX_EXCEPTION( hr,L"Creating view on sysBuffer texture" );
 	}
 
-
-	////////////////////////////////////////////////
 	// create pixel shader for framebuffer
-	// Ignore the intellisense error "namespace has no member"
 	if( FAILED( hr = pDevice->CreatePixelShader(
 		FramebufferShaders::FramebufferPSBytecode,
 		sizeof( FramebufferShaders::FramebufferPSBytecode ),
@@ -145,9 +139,7 @@ Graphics::Graphics( HWNDKey& key )
 	}
 	
 
-	/////////////////////////////////////////////////
 	// create vertex shader for framebuffer
-	// Ignore the intellisense error "namespace has no member"
 	if( FAILED( hr = pDevice->CreateVertexShader(
 		FramebufferShaders::FramebufferVSBytecode,
 		sizeof( FramebufferShaders::FramebufferVSBytecode ),
@@ -158,7 +150,6 @@ Graphics::Graphics( HWNDKey& key )
 	}
 	
 
-	//////////////////////////////////////////////////////////////
 	// create and fill vertex buffer with quad for rendering frame
 	const FSQVertex vertices[] =
 	{
@@ -181,8 +172,6 @@ Graphics::Graphics( HWNDKey& key )
 		throw DX_GFX_EXCEPTION( hr,L"Creating vertex buffer" );
 	}
 
-	
-	//////////////////////////////////////////
 	// create input layout for fullscreen quad
 	const D3D11_INPUT_ELEMENT_DESC ied[] =
 	{
@@ -190,7 +179,6 @@ Graphics::Graphics( HWNDKey& key )
 		{ "TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0 }
 	};
 
-	// Ignore the intellisense error "namespace has no member"
 	if( FAILED( hr = pDevice->CreateInputLayout( ied,2,
 		FramebufferShaders::FramebufferVSBytecode,
 		sizeof( FramebufferShaders::FramebufferVSBytecode ),
@@ -199,8 +187,6 @@ Graphics::Graphics( HWNDKey& key )
 		throw DX_GFX_EXCEPTION( hr,L"Creating input layout" );
 	}
 
-
-	////////////////////////////////////////////////////
 	// Create sampler state for fullscreen textured quad
 	D3D11_SAMPLER_DESC sampDesc = {};
 	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
@@ -338,9 +324,7 @@ void Graphics::DrawCircle( int x,int y,int radius,Color c )
 	}
 }
 
-
-//////////////////////////////////////////////////
-//           Graphics Exception
+// Graphics Exception
 Graphics::Exception::Exception( HRESULT hr,const std::wstring& note,const wchar_t* file,unsigned int line )
 	:
 	MyException( file,line,note ),

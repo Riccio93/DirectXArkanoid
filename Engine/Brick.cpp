@@ -6,7 +6,7 @@ Brick::Brick(const RectF& _rect, Color _color)
 void Brick::Draw(Graphics& gfx) const
 {
 	if(!isDestroyed)
-		gfx.DrawRect(rect.GetExpandedRect(-padding), color); //Draws empty space between bricks (only visual!)
+		gfx.DrawRect(rect.GetExpandedRect(-padding), color); //Draws empty space between bricks (only visual, doesn't affect collisions!)
 }
 
 bool Brick::DoBallCollision(Ball& ball)
