@@ -1,7 +1,5 @@
 #include "MainWindow.h"
 #include "Game.h"
-#include "Brick.h"
-#include "Ball.h"
 
 Game::Game(MainWindow& wnd)
 	: wnd(wnd), gfx(wnd),
