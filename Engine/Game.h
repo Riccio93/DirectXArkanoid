@@ -25,6 +25,7 @@ private:
 	static constexpr int numBricksAcross = 18;
 	static constexpr int numBricksDown = 4;
 	static constexpr int numBricks = numBricksAcross * numBricksDown;
+	bool isGameOver = false;
 
 	MainWindow& wnd;
 	Graphics gfx;

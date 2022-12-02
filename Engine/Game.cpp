@@ -3,9 +3,9 @@
 
 Game::Game(MainWindow& wnd)
 	: wnd(wnd), gfx(wnd),
-	ball(Vec2(300.f, 300.f), Vec2(300.f, 300.f)),
+	ball(Vec2(200.f, 200.f), Vec2(300.f, 300.f)),
 	walls(0.f, float(gfx.ScreenWidth), 0.f, float(gfx.ScreenHeight)),
-	paddle(Vec2(400.f, 500.f), 50.f, 15.f)
+	paddle(Vec2(400.f, 500.f), 50.f, 10.f)
 {
 	//Making bricks grid
 	const Color colors[numBricksDown] = { Colors::Red, Colors::Green, Colors::Blue, Colors::Cyan };
@@ -30,43 +30,54 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	const float dt = ft.Mark();
-	ball.Update(dt);
-	paddle.Update(wnd.kbd, dt);
-
-	//When the ball collides with more than 1 brick, only the closest one gets destroyed
-	bool collisionHappened = false;
-	float currentCollisionDistanceSq = FLT_MAX;
-	int currentCollisionBrickIndex = INT_MAX;
-	for (int i = 0; i < numBricks; i++)
+	if (!isGameOver)
 	{
-		if (bricks[i].CheckBallCollision(ball))
+		const float dt = ft.Mark();
+		ball.Update(dt);
+		paddle.Update(wnd.kbd, dt);
+
+		//When the ball collides with more than 1 brick, only the closest one gets destroyed
+		bool collisionHappened = false;
+		float currentCollisionDistanceSq = FLT_MAX;
+		int currentCollisionBrickIndex = INT_MAX;
+		for (int i = 0; i < numBricks; i++)
 		{
-			const float newCollisionDistanceSq = (ball.GetPosition() - bricks[i].GetCenter()).GetLengthSq();
-			if (collisionHappened)
+			if (bricks[i].CheckBallCollision(ball))
 			{
-				if (newCollisionDistanceSq < currentCollisionDistanceSq)
+				const float newCollisionDistanceSq = (ball.GetPosition() - bricks[i].GetCenter()).GetLengthSq();
+				if (collisionHappened)
 				{
-					currentCollisionDistanceSq = newCollisionDistanceSq;
+					if (newCollisionDistanceSq < currentCollisionDistanceSq)
+					{
+						currentCollisionDistanceSq = newCollisionDistanceSq;
+						currentCollisionBrickIndex = i;
+					}
+				}
+				else
+				{
 					currentCollisionBrickIndex = i;
+					currentCollisionDistanceSq = newCollisionDistanceSq;
+					collisionHappened = true;
 				}
 			}
-			else
-			{
-				currentCollisionBrickIndex = i;
-				currentCollisionDistanceSq = newCollisionDistanceSq;
-				collisionHappened = true;
-			}
 		}
-	}
-	if (collisionHappened)
-	{
-		bricks[currentCollisionBrickIndex].DoBallCollision(ball);
-	}
+		if (collisionHappened)
+		{
+			bricks[currentCollisionBrickIndex].DoBallCollision(ball);
+		}
 
-	paddle.DoBallCollision(ball);
-	paddle.DoWallCollision(walls);
-	ball.DoWallCollision(walls);
+		paddle.DoBallCollision(ball);
+		paddle.DoWallCollision(walls);
+
+		const int ballWallCollisionResult = ball.DoWallCollision(walls);
+		if (ballWallCollisionResult == 2) //2 = collision with bottom wall
+		{
+			isGameOver = true;
+		}
+	}	
+	//Quit the game when ENTER is pressed
+	if (wnd.kbd.KeyIsPressed(VK_RETURN))
+		exit(0);
 }
 
 void Game::ComposeFrame()
@@ -75,6 +86,9 @@ void Game::ComposeFrame()
 	{
 		brick.Draw(gfx);
 	}
-	ball.Draw(gfx);
-	paddle.Draw(gfx);
+	if (!isGameOver)
+	{
+		ball.Draw(gfx);
+		paddle.Draw(gfx);
+	}	
 }

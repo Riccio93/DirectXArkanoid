@@ -167,36 +167,37 @@ void Ball::Update(float dt)
 	pos += vel * dt;
 }
 
-bool Ball::DoWallCollision(const RectF& walls)
+//return 0 = nothing, 1 = normal wall hit, 2 = bottom wall hit
+int Ball::DoWallCollision(const RectF& walls)
 {
 	//We change a coordinate's sign if the ball collides with a wall
-	bool collided = false;
+	int collisionResult = 0;
 	const RectF rect = GetRect();
 	if (rect.left < walls.left)
 	{
 		pos.x += walls.left - rect.left; //When the ball is out of bounds, move it so that it returns in bounds
 		ReboundX();
-		collided = true;
+		collisionResult = 1;
 	}
 	if (rect.right > walls.right)
 	{
 		pos.x -= rect.right - walls.right; //When the ball is out of bounds, move it so that it returns in bounds
 		ReboundX();
-		collided = true;
+		collisionResult = 1;
 	}
 	if (rect.top < walls.top)
 	{
 		pos.y += walls.top - rect.top; //When the ball is out of bounds, move it so that it returns in bounds
 		ReboundY();
-		collided = true;
+		collisionResult = 1;
 	}
 	if (rect.bottom > walls.bottom)
 	{
 		pos.y -= rect.bottom - walls.bottom; //When the ball is out of bounds, move it so that it returns in bounds
 		ReboundY();
-		collided = true;
+		collisionResult = 2;
 	}
-	return collided;
+	return collisionResult;
 }
 
 void Ball::ReboundX()
