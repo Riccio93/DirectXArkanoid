@@ -14,6 +14,7 @@ public:
 	bool DoBallCollision(Ball& ball);
 
 private:
+	static constexpr float padding = 1.f;
 	RectF rect;
 	Color color;
 	bool isDestroyed = false;
