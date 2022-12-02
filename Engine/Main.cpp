@@ -10,9 +10,17 @@ int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR pArgs,INT )
 		try
 		{
 			Game theGame( wnd );
-			while( wnd.ProcessMessage() )
+			while( wnd.ProcessMessage())
 			{
-				theGame.Go();
+				if (wnd.kbd.KeyIsPressed(VK_ESCAPE)) //ESC quits the game
+					exit(0);
+				else if (wnd.kbd.KeyIsPressed(VK_RETURN)) //ENTER restarts the game (destroys the game obj and reconstructs it)
+				{
+					theGame.~Game();
+					new(&theGame) Game(wnd);
+				}
+				else
+					theGame.Go();
 			}
 		}
 		catch( const MyException& e )

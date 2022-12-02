@@ -74,10 +74,11 @@ void Game::UpdateModel()
 		{
 			isGameOver = true;
 		}
-	}	
+	}
+
 	//Quit the game when ENTER is pressed
-	if (wnd.kbd.KeyIsPressed(VK_RETURN))
-		exit(0);
+	/*if (wnd.kbd.KeyIsPressed(VK_RETURN))
+		exit(0);*/
 }
 
 void Game::ComposeFrame()
