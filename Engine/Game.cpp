@@ -33,11 +33,37 @@ void Game::UpdateModel()
 	const float dt = ft.Mark();
 	ball.Update(dt);
 	paddle.Update(wnd.kbd, dt);
-	for (Brick& brick : bricks)
+
+	//When the ball collides with more than 1 brick, only the closest one gets destroyed
+	bool collisionHappened = false;
+	float currentCollisionDistanceSq = FLT_MAX;
+	int currentCollisionBrickIndex = INT_MAX;
+	for (int i = 0; i < numBricks; i++)
 	{
-		if(brick.DoBallCollision(ball))
-			break; //If we find a collision there's no need to check every other brick in this frame
+		if (bricks[i].CheckBallCollision(ball))
+		{
+			const float newCollisionDistanceSq = (ball.GetPosition() - bricks[i].GetCenter()).GetLengthSq();
+			if (collisionHappened)
+			{
+				if (newCollisionDistanceSq < currentCollisionDistanceSq)
+				{
+					currentCollisionDistanceSq = newCollisionDistanceSq;
+					currentCollisionBrickIndex = i;
+				}
+			}
+			else
+			{
+				currentCollisionBrickIndex = i;
+				currentCollisionDistanceSq = newCollisionDistanceSq;
+				collisionHappened = true;
+			}
+		}
 	}
+	if (collisionHappened)
+	{
+		bricks[currentCollisionBrickIndex].DoBallCollision(ball);
+	}
+
 	paddle.DoBallCollision(ball);
 	paddle.DoWallCollision(walls);
 	ball.DoWallCollision(walls);
