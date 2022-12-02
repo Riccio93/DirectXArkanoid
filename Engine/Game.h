@@ -19,9 +19,10 @@ private:
 	void ComposeFrame();
 	void UpdateModel();
 
+	const Vec2 topLeftCorner = Vec2(40.f, 40.f);
 	static constexpr float brickWidth = 40.f;
 	static constexpr float brickHeight = 24.f;
-	static constexpr int numBricksAcross = 12;
+	static constexpr int numBricksAcross = 18;
 	static constexpr int numBricksDown = 4;
 	static constexpr int numBricks = numBricksAcross * numBricksDown;
 

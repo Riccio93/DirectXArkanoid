@@ -16,7 +16,7 @@ Game::Game(MainWindow& wnd)
 	{
 		for (int x = 0; x - numBricksAcross; x++)
 		{
-			bricks[index] = Brick(RectF(Vec2(0.f, 0.f) + Vec2(x * brickWidth, y * brickHeight), brickWidth, brickHeight), colors[y]);
+			bricks[index] = Brick(RectF(topLeftCorner + Vec2(x * brickWidth, y * brickHeight), brickWidth, brickHeight), colors[y]);
 			index++;
 		}
 	}
