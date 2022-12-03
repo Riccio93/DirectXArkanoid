@@ -3,7 +3,7 @@
 
 Game::Game(MainWindow& wnd)
 	: wnd(wnd), gfx(wnd),
-	ball(Vec2(200.f, 200.f), Vec2(300.f, 300.f)),
+	ball(Vec2(300.f, 350.f), Vec2(-1.f, -1.f)),
 	walls(0.f, float(gfx.ScreenWidth), 0.f, float(gfx.ScreenHeight)),
 	paddle(Vec2(400.f, 500.f), 50.f, 10.f)
 {

@@ -13,8 +13,12 @@ bool Paddle::DoBallCollision(Ball& ball) const
 	//Only consider the collision if the ball is coming from above (it will never come from below cause under the paddle is game over)
 	if (ball.GetVelocity().y > 0.f && GetRect().IsOverlappingWith(ball.GetRect()))
 	{
-		ball.ReboundY();
-			return true;
+		const float xDifference = ball.GetPosition().x - pos.x;
+		const Vec2 dir(xDifference * .045f, -1.f);
+		ball.SetDirection(dir);
+
+		//ball.ReboundY();
+		return true;
 	}
 	return false;
 }

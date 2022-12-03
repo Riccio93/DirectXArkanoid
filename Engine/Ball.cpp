@@ -2,8 +2,11 @@
 #include "Graphics.h"
 #include "Vec2.h"
 
-Ball::Ball(const Vec2& _pos, const Vec2& _vel)
-	: pos(_pos), vel(_vel) { }
+Ball::Ball(const Vec2& _pos, const Vec2& _dir)
+	: pos(_pos) 
+{
+	SetDirection(_dir);
+}
 
 void Ball::Draw(Graphics& gfx)
 {
@@ -224,4 +227,9 @@ Vec2 Ball::GetVelocity() const
 Vec2 Ball::GetPosition() const
 {
 	return pos;
+}
+
+void Ball::SetDirection(const Vec2& dir)
+{
+	vel = dir.GetNormalized() * speed;
 }
