@@ -19,7 +19,7 @@ void Brick::DoBallCollision(Ball& ball)
 {
 	assert(CheckBallCollision(ball));
 
-	//Different behavior if the brick is hit from the top/bottom or the side (different coord in rebound)
+	//Different behavior if the brick is hit from the top/bottom or the side (different coord chosen for rebound)
 	if (ball.GetPosition().x >= rect.left && ball.GetPosition().x <= rect.right)
 	{
 		ball.ReboundY();
